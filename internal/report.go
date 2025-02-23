@@ -22,7 +22,6 @@ type Report struct {
 	TotalCoverage   *Coverage
 }
 
-// https://github.com/yeencloud/test/blob/82a6c99cdf8ff17de2fa466ce48ec9fb2da38f2f/strings.go#L8
 func WriteReport(report Report) {
 	repository := os.Getenv("GITHUB_REPOSITORY")
 	blob := os.Getenv("GITHUB_SHA")

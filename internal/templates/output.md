@@ -17,14 +17,17 @@ Issues:
     <tr>
         <th>Linter</th>
         <th>Issue</th>
-        <th>File</th>
-        <th>Column</th>
+        <th>File</th> 
     </tr>
     {{ range .Lint.Issues }}<tr>
         <td>{{ .FromLinter }}</td>
         <td><code>{{ .Text }}</code></td>
-        <td>[{{ .Pos.Filename }}:{{ .Pos.Line }}:{{ .Pos.Column }}]({{(link .Pos.Filename .Pos.Line)}})</td> 
-    </tr>{{ end }}
+        <td>
+          <a href="{{ (link .Pos.Filename .Pos.Line) }}">
+            {{ .Pos.Filename }}:{{ .Pos.Line }}:{{ .Pos.Column }}
+          </a>
+        </td>
+</tr>{{ end }}
 </table>
 
 
