@@ -17,17 +17,20 @@ runs:
 
     # 3) Install golangci-lint (but do NOT run it yet)
     - name: Install golangci-lint
+      shell: bash
       run: |
         go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 
     # 4) Build the custom Go action (A)
     - name: Build this action
+      shell: bash
       run: |
         cd $GITHUB_ACTION_PATH
         go build -o my-go-action main.go
 
     # 5) Run the compiled action inside the cloned repo (B)
     - name: Run my action inside cloned repo
+      shell: bash
       run: |
         # Switch to the cloned repo folder
         cd $GITHUB_WORKSPACE
