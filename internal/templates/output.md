@@ -4,8 +4,7 @@
 {{ if gt (len .Lint.Report.Warnings) 0 }}
 Warnings: 
 <details open>
-<pre> 
-{{ range .Lint.Report.Warnings }}{{.Tag}}: {{.Text}}
+<pre>{{ range .Lint.Report.Warnings }}{{.Tag}}: {{.Text}}
 {{ end }} 
 </pre>
 </details>
@@ -70,9 +69,29 @@ pie
 ```
 <table>
     <tr>
-        <th>Package</th>
+        <th>📦 Package</th>
         <th>Passed</th>
         <th>Skipped</th>
+        <th>Failed</th>
         <th>Duration</th>
     </tr>
+{{- range $key, $value := .TestsResult }}
+    <tr>
+    <td>{{(pkgBadge $value)}} {{$key}}</td>
+    <td>{{(pkgPassedCount $value)}}</td>
+    <td>{{(pkgSkippedCount $value)}}</td>
+    <td>{{(pkgPassedCount $value)}}</td>
+    <td>{{.Elapsed}}</td>
+    </tr>
+    <tr>
+    <td colspan="5"> 
+{{- range $key, $value := .Tests }}
+        {{(testBadge $value)}} <code>{{$value.Name}}</code>
+<details {{(detailOpened $value.Output)}}><pre><code>{{(testOutput $value)}}
+</code></pre></details>
+{{- end }}
+    </td>
+    </tr>
+{{- end }}
+
 </table> 
