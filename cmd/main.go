@@ -18,12 +18,9 @@ func main() {
 		log.Printf("golangci-lint found issues or failed: %v", err)
 	}
 
-	if err := runCommand("go", "test", "./...", "-v"); err != nil {
-		log.Printf("go test failed: %v", err)
-	}
-
 	spew.Dump("hello")
 
+	internal.RunUnit()
 	internal.WriteOutput()
 
 	fmt.Println("Done. Exiting.")
