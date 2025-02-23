@@ -30,7 +30,11 @@ func WriteReport(report Report) {
 			log.Printf("Failed to set output: %v", err)
 		} else {
 			defer f.Close()
-			tpl.Execute(f, report)
+			err := tpl.Execute(f, report)
+			if err != nil {
+				log.Printf("Failed to write report: %v", err)
+				return
+			}
 		}
 	}
 }

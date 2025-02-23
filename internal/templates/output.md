@@ -1,5 +1,18 @@
 ## Lint
 
+
+{{ if gt (len .Lint.Report.Warnings) 0 }}
+Warnings: 
+<details open>
+<pre> 
+{{ range .Lint.Report.Warnings }}{{.Tag}}: {{.Text}}
+{{ end }} 
+</pre>
+</details>
+{{ end }}
+
+
+Issues:
 <table>
     <tr>
         <th>Linter</th>
@@ -7,14 +20,12 @@
         <th>File</th>
         <th>Column</th>
     </tr>
-    {{ range .Lint.Issues }}
-        <tr>
-            <td>{{ .FromLinter }}</td>
-            <td>{{ .Text }}</td>
-            <td>{{ .File }}</td>
-            <td>{{ .Pos.Filename }}:{{ .Pos.Line }}:{{ .Pos.Column }}</td>
-        </tr>
-    {{ end }}
+    {{ range .Lint.Issues }}<tr>
+        <td>{{ .FromLinter }}</td>
+        <td>{{ .Text }}</td>
+        <td>{{ .Pos.Filename }}</td>
+        <td>{{ .Pos.Line }}:{{ .Pos.Column }}</td>
+    </tr>{{ end }}
 </table>
 
 
