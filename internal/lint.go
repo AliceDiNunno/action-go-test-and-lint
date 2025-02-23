@@ -7,18 +7,18 @@ import (
 
 type LintResult struct {
 	Issues []struct {
-		FromLinter string `json:"from_linter"`
-		Text       string `json:"text"`
+		FromLinter string
+		Text       string
 		Pos        struct {
-			Filename string `json:"filename"`
-			Line     int    `json:"line"`
-			Column   int    `json:"column"`
-		} `json:"pos"`
-	} `json:"issues"`
+			Filename string
+			Line     int
+			Column   int
+		}
+	}
 	Report struct {
 		Warnings []struct {
-			Tag  string `json:"tag"`
-			Text string `json:"text"`
+			Tag  string
+			Text string
 		}
 	}
 }

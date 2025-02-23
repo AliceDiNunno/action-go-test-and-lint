@@ -1,11 +1,13 @@
 package main
 
 import (
+	"github.com/davecgh/go-spew/spew"
+
 	"github.com/AliceDiNunno/action-go-test-and-lint/internal"
 )
 
 func main() {
-	internal.RunUnit()
-	internal.RunLint()
+	spew.Dump(internal.RunUnit())
+	spew.Dump(internal.RunLint())
 	internal.WriteOutput()
 }
