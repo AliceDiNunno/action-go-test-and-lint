@@ -23,7 +23,7 @@ func (mw *MultiWriter) Write(p []byte) (n int, err error) {
 	return len(p), nil
 }
 
-func run(cmd string, outputerr bool) (string, error) {
+func run(cmd string, writeErrorToDataOutput bool) (string, error) {
 	strs := strings.Split(cmd, " ")
 
 	c := exec.Command(strs[0], strs[1:]...)
@@ -33,12 +33,13 @@ func run(cmd string, outputerr bool) (string, error) {
 		writers: []io.Writer{os.Stdout, &out},
 	}
 
-	if outputerr {
-		stderrWriter := &MultiWriter{
-			writers: []io.Writer{os.Stderr, &out},
-		}
-		c.Stderr = stderrWriter
+	stderrWriter := &MultiWriter{
+		writers: []io.Writer{os.Stderr, &out},
 	}
+	if writeErrorToDataOutput {
+		stderrWriter.writers = append(stderrWriter.writers, &out)
+	}
+	c.Stderr = stderrWriter
 
 	c.Stdout = stdoutWriter
 	err := c.Run()
