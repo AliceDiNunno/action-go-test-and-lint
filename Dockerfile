@@ -1,24 +1,17 @@
-FROM golang:1.24.0 AS builder
+# Dockerfile
+FROM golang:1.20
 
+# Install golangci-lint
+# (Pick a version or use "latest"—here we use v1.52.2 as example)
 RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.52.2
 
 WORKDIR /app
-COPY go.mod go.sum ./
-RUN go mod download
-
-# Copy the rest of the code
 COPY . .
 
-# Build our custom action binary
-RUN CGO_ENABLED=0 go build -o /action ./cmd/main.go
+# If you have a Go program as your action entry point, build it:
+RUN go build -o /action ./cmd/main.go
 
-FROM alpine:3.18
-
-RUN apk add --no-cache ca-certificates
-
-COPY --from=builder /action /action
-COPY --from=builder /go/bin/golangci-lint /usr/local/bin/golangci-lint
-
+# Start from /app or /github/workspace as needed:
 WORKDIR /github/workspace
 
 ENTRYPOINT ["/action"]
