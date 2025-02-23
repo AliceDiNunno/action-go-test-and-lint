@@ -1,23 +1,17 @@
 package internal
 
 import (
+	_ "embed"
 	"log"
 	"os"
 	"text/template"
 )
 
-func WriteOutput() {
-	templateContent, err := os.ReadFile("template/output.md")
-	if err != nil {
-		log.Printf("Failed to read template: %v", err)
-		return
-	}
-	fd := string(templateContent)
+//go:embed templates/output.md
+var outputTemplate string
 
-	tpl, err := template.New("feed").Parse(fd)
-	if err != nil {
-		log.Printf("Failed to build template: %v", err)
-	}
+func WriteOutput() {
+	tpl := template.Must(template.New("feed").Parse(outputTemplate))
 
 	githubOutput := os.Getenv("GITHUB_STEP_SUMMARY")
 	if githubOutput != "" {
