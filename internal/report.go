@@ -22,11 +22,18 @@ type Report struct {
 	TotalCoverage   *Coverage
 }
 
+// https://github.com/yeencloud/test/blob/82a6c99cdf8ff17de2fa466ce48ec9fb2da38f2f/strings.go#L8
 func WriteReport(report Report) {
+	repository := os.Getenv("GITHUB_REPOSITORY")
+	blob := os.Getenv("GITHUB_SHA")
+
 	funcMap := template.FuncMap{
 		"substract": func(a float64, b float64) float64 { return a - b },
 		"percent":   func(a int, b int) float64 { return float64(a) / float64(b) * 100 },
 		"trim":      func(f float64) string { return fmt.Sprintf("%.2f", f) },
+		"link": func(fileName string, line int) string {
+			return fmt.Sprintf("https://github.com/%sblob%s/%s#L%d", repository, blob, fileName, line)
+		},
 	}
 	tpl := template.Must(template.New("feed").Funcs(funcMap).Parse(outputTemplate))
 

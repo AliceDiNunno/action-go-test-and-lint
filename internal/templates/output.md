@@ -23,8 +23,7 @@ Issues:
     {{ range .Lint.Issues }}<tr>
         <td>{{ .FromLinter }}</td>
         <td><code>{{ .Text }}</code></td>
-        <td>{{ .Pos.Filename }}</td>
-        <td>{{ .Pos.Line }}:{{ .Pos.Column }}</td>
+        <td>[{{ .Pos.Filename }}:{{ .Pos.Line }}:{{ .Pos.Column }}]({{(link .Pos.Filename .Pos.Line)}})</td> 
     </tr>{{ end }}
 </table>
 
