@@ -3,17 +3,37 @@ description: "Go Test Cover and Lint reports"
 author: "Alice Di Nunno"
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
+    # 1) Check out the *target* repository (B)
+    - name: Check out target repo
+      uses: actions/checkout@v3
+
+    # 2) Set up Go (using latest stable Go release)
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: "1.x"
+
+    # 3) Install golangci-lint (but do NOT run it yet)
     - name: Install golangci-lint
       run: |
         go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-        echo "$HOME/go/bin" >> $GITHUB_PATH
-      shell: bash
-    - run: go mod tidy
-      shell: bash
-    - run: go run ./
-      shell: bash
+
+    # 4) Build the custom Go action (A)
+    - name: Build this action
+      run: |
+        cd $GITHUB_ACTION_PATH
+        go build -o my-go-action main.go
+
+    # 5) Run the compiled action inside the cloned repo (B)
+    - name: Run my action inside cloned repo
+      run: |
+        # Switch to the cloned repo folder
+        cd $GITHUB_WORKSPACE
+
+        # Execute the compiled binary from $GITHUB_ACTION_PATH
+        $GITHUB_ACTION_PATH/my-go-action
 
 inputs:
   lint-args:
