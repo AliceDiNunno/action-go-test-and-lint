@@ -7,6 +7,14 @@
         <th>File</th>
         <th>Column</th>
     </tr>
+    {{ range .Lint.Issues }}
+        <tr>
+            <td>{{ .FromLinter }}</td>
+            <td>{{ .Text }}</td>
+            <td>{{ .File }}</td>
+            <td>{{ .Pos.Filename }}:{{ .Pos.Line }}:{{ .Pos.Column }}</td>
+        </tr>
+    {{ end }}
 </table>
 
 
@@ -34,5 +42,4 @@ pie
         <th>Skipped</th>
         <th>Duration</th>
     </tr>
-</table>
->
+</table> 

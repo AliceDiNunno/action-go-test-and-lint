@@ -14,10 +14,10 @@ import (
 var outputTemplate string
 
 type Report struct {
-	packageCoverage map[string]*Coverage
-	fileCoverage    map[string]*Coverage
-	lint            run.LintResult
-	testsResult     map[string]*domain.PackageResult
+	PackageCoverage map[string]*Coverage
+	FileCoverage    map[string]*Coverage
+	Lint            run.LintResult
+	TestsResult     map[string]*domain.PackageResult
 }
 
 func WriteReport(report Report) {

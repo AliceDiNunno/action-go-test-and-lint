@@ -10,9 +10,9 @@ func RunTests() (Report, bool) {
 	packageCoverage, fileCoverage := RunCoverage()
 
 	return Report{
-		packageCoverage: packageCoverage,
-		fileCoverage:    fileCoverage,
-		lint:            lint,
-		testsResult:     MapTestRawOutputToPackageResults(unitTests),
+		PackageCoverage: packageCoverage,
+		FileCoverage:    fileCoverage,
+		Lint:            lint,
+		TestsResult:     MapTestRawOutputToPackageResults(unitTests),
 	}, unitSuccess && lintSuccess
 }
