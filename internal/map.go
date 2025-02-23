@@ -18,8 +18,7 @@ func MapTestRawOutputToPackageResults(raw []run.TestRawOutput) map[string]*domai
 		if _, ok := packages[line.Package]; !ok {
 			packages[line.Package] = &domain.PackageResult{
 				Name:     line.Package,
-				Tests:    make(map[string]*domain.TestResult),
-				Coverage: 0.0,
+				Tests:    make(map[string]*domain.TestResult), 
 				Status:   "pass",
 			}
 		}

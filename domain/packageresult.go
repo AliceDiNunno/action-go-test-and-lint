@@ -2,8 +2,7 @@ package domain
 
 type PackageResult struct {
 	Name     string
-	Tests    map[string]*TestResult
-	Coverage float64
+	Tests    map[string]*TestResult 
 	Status   string // "pass" or "fail"
 	Elapsed  string
 }
