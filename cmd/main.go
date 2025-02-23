@@ -6,6 +6,12 @@ import (
 )
 
 func main() {
+	//dump all env variables
+
+	for _, e := range os.Environ() {
+		fmt.Println(e)
+	}
+
 	run.RunModTidy()
 
 	report, success := internal.RunTests()
