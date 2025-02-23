@@ -1,0 +1,21 @@
+name: "Gotecoli"
+description: "Go Test Cover and Lint reports"
+author: "Alice Di Nunon"
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+
+inputs:
+  lint-args:
+    description: "Extra arguments for golangci-lint"
+    required: false
+    default: ""
+
+outputs:
+  lint-result:
+    description: "Result of the lint (e.g., pass/fail or summary)"
+
+branding:
+  icon: "check"
+  color: "green"
