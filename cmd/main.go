@@ -6,6 +6,8 @@ import (
 	"os"
 	"os/exec"
 
+	"github.com/davecgh/go-spew/spew"
+
 	"github.com/AliceDiNunno/action-go-test-and-lint/internal"
 )
 
@@ -19,6 +21,8 @@ func main() {
 	if err := runCommand("go", "test", "./...", "-v"); err != nil {
 		log.Printf("go test failed: %v", err)
 	}
+
+	spew.Dump("hello")
 
 	internal.WriteOutput()
 
