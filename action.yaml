@@ -27,7 +27,7 @@ runs:
       run: |
         cd $GITHUB_ACTION_PATH
         go mod tidy
-        go build -o my-go-action main.go
+        go build -o my-go-action ./cmd/main.go
 
     # 5) Run the compiled action inside the cloned repo (B)
     - name: Run my action inside cloned repo
