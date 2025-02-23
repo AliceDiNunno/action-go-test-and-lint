@@ -1,5 +1,5 @@
 # Dockerfile
-FROM golang:1.20
+FROM golang:1.24
 
 # Install golangci-lint
 # (Pick a version or use "latest"—here we use v1.52.2 as example)
