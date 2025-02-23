@@ -47,6 +47,27 @@ func WriteReport(report Report) {
 		},
 		"pkgBadge":  func(pkg *domain.PackageResult) string { return pkg.Badge() },
 		"testBadge": func(test *domain.TestResult) string { return test.Badge() },
+		"totalPassed" : func() int {
+			passed := 0
+			for _, pkg := range report.TestsResult {
+				passed += pkg.Passed()
+			}
+			return passed
+		},
+		"totalFailed" : func() int {
+			failed := 0
+			for _, pkg := range report.TestsResult {
+				failed += pkg.Failed()
+			}
+			return failed
+		},
+		"totalSkipped" : func() int {
+			skipped := 0
+			for _, pkg := range report.TestsResult {
+				skipped += pkg.Skipped()
+			}
+			return skipped
+		},
 	}
 	tpl := template.Must(template.New("feed").Funcs(funcMap).Parse(outputTemplate))
 
