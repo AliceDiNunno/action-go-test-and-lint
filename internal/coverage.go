@@ -13,16 +13,16 @@ type Coverage struct {
 	Covered    int
 }
 
-func RunCoverage() (map[string]*Coverage, map[string]*Coverage) {
+func RunCoverage() (coverageByPackage map[string]*Coverage, coverageByFile map[string]*Coverage, totalCoverage *Coverage) {
 	file, err := os.Open("coverage.out")
 	if err != nil {
 		fmt.Println("Error opening coverage file:", err)
-		return nil, nil
+		return nil, nil, nil
 	}
 	defer file.Close()
 
-	coverageByFile := make(map[string]*Coverage)
-	coverageByPackage := make(map[string]*Coverage)
+	coverageByFile = make(map[string]*Coverage)
+	coverageByPackage = make(map[string]*Coverage)
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
@@ -76,7 +76,7 @@ func RunCoverage() (map[string]*Coverage, map[string]*Coverage) {
 
 	if err := scanner.Err(); err != nil {
 		fmt.Println("Error reading coverage file:", err)
-		return nil, nil
+		return nil, nil, nil
 	}
 
 	totalStatements := 0
@@ -87,12 +87,8 @@ func RunCoverage() (map[string]*Coverage, map[string]*Coverage) {
 		totalCovered += coverage.Covered
 	}
 
-	if totalStatements > 0 {
-		coverageByPackage["*"] = &Coverage{
-			Statements: totalStatements,
-			Covered:    totalCovered,
-		}
+	return coverageByPackage, coverageByFile, &Coverage{
+		Statements: totalStatements,
+		Covered:    totalCovered,
 	}
-
-	return coverageByPackage, coverageByFile
 }

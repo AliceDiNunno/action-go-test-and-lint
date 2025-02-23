@@ -7,9 +7,10 @@ import (
 func RunTests() (Report, bool) {
 	unitTests, unitSuccess := run.RunUnit()
 	lint, lintSuccess := run.RunLint()
-	packageCoverage, fileCoverage := RunCoverage()
+	packageCoverage, fileCoverage, totalCoverage := RunCoverage()
 
 	return Report{
+		TotalCoverage:   totalCoverage,
 		PackageCoverage: packageCoverage,
 		FileCoverage:    fileCoverage,
 		Lint:            lint,

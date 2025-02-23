@@ -2,6 +2,7 @@ package internal
 
 import (
 	_ "embed"
+	"fmt"
 	"log"
 	"os"
 	"text/template"
@@ -18,10 +19,16 @@ type Report struct {
 	FileCoverage    map[string]*Coverage
 	Lint            run.LintResult
 	TestsResult     map[string]*domain.PackageResult
+	TotalCoverage   *Coverage
 }
 
 func WriteReport(report Report) {
-	tpl := template.Must(template.New("feed").Parse(outputTemplate))
+	funcMap := template.FuncMap{
+		"substract": func(a float64, b float64) float64 { return a - b },
+		"percent":   func(a int, b int) float64 { return float64(a) / float64(b) * 100 },
+		"trim":      func(f float64) string { return fmt.Sprintf("%.2f", f) },
+	}
+	tpl := template.Must(template.New("feed").Funcs(funcMap).Parse(outputTemplate))
 
 	githubOutput := os.Getenv("GITHUB_STEP_SUMMARY")
 	if githubOutput != "" {

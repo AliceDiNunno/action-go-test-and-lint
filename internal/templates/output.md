@@ -22,7 +22,7 @@ Issues:
     </tr>
     {{ range .Lint.Issues }}<tr>
         <td>{{ .FromLinter }}</td>
-        <td>{{ .Text }}</td>
+        <td><code>{{ .Text }}</code></td>
         <td>{{ .Pos.Filename }}</td>
         <td>{{ .Pos.Line }}:{{ .Pos.Column }}</td>
     </tr>{{ end }}
@@ -30,13 +30,33 @@ Issues:
 
 
 ## Coverage
+{{ $totalStatements := .TotalCoverage.Statements }}
+{{ $totalCovered := .TotalCoverage.Covered }}
+{{ $totalCoverage := (percent $totalCovered $totalStatements) }}
 ```mermaid
 %%{init: {"theme":"base","themeVariables":{"fontFamily":"monospace","pieSectionTextSize":"24px","darkMode":true,"pie1":"#2da44e","pie2":"#cf222e","pie3":"#dbab0a"}}}%%
 pie
-    "Covered": 1
-    "Uncovered": 2
+    "Covered": {{ (trim $totalCoverage) }}
+    "Uncovered": {{ (trim (substract 100.00 $totalCoverage)) }}
 ```
 
+<table>
+<tr>
+    <th>📦 Package</th>
+    <th>Coverage</th> 
+</tr>
+{{- range $key, $value := .PackageCoverage }}
+{{if ne $key "*"}}
+<tr>
+    <td>{{$key}}</td>
+{{ $totalStatements := .Statements }}
+{{ $totalCovered := .Covered }}
+{{ $totalCoverage := printf "%.2f%%" (percent $totalCovered $totalStatements) }}
+<td>{{$totalCoverage}}</td>
+</tr> 
+{{end}}
+{{- end}}
+</table>
 
 ## Tests
 ```mermaid
