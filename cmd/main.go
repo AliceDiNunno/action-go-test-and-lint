@@ -1,11 +1,10 @@
 package main
 
 import (
-	"github.com/AliceDiNunno/action-go-test-and-lint/internal"
-	"github.com/AliceDiNunno/action-go-test-and-lint/internal/run"
-
 	"fmt"
 	"os"
+
+	"github.com/AliceDiNunno/action-go-test-and-lint/internal"
 )
 
 func main() {
@@ -13,8 +12,6 @@ func main() {
 	for _, e := range os.Environ() {
 		fmt.Println(e)
 	}
-
-	run.RunModTidy()
 
 	report, success := internal.RunTests()
 	internal.WriteReport(report)
