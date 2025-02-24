@@ -57,7 +57,7 @@ func buildPie(data []PieData) string {
 
 	//add pie data
 	for _, d := range data {
-		pie += fmt.Sprintf("  %s: %d\n", d.Field, d.Value)
+		pie += fmt.Sprintf("  \"%s\": %d\n", d.Field, d.Value)
 	}
 
 	return pie
