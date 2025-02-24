@@ -1,6 +1,5 @@
+{{ if gt (len .Lint.Issues) 0 }}
 ## Lint
-
-
 {{ if gt (len .Lint.Report.Warnings) 0 }}
 Warnings: 
 <details open>
@@ -28,6 +27,7 @@ Issues:
         </td>
 </tr>{{ end }}
 </table>
+{{ end }}
 
 
 ## Coverage
@@ -35,7 +35,7 @@ Issues:
 {{ $totalCovered := .TotalCoverage.Covered }}
 {{ $totalCoverage := (percent $totalCovered $totalStatements) }}
 ```mermaid
-%%{init: {"theme":"base","themeVariables":{"fontFamily":"monospace","pieSectionTextSize":"24px","darkMode":true,"pie1":"#2da44e","pie2":"#cf222e","pie3":"#dbab0a"}}}%%
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"monospace","pieSectionTextSize":"24px","darkMode":true,"pie1":"#2da44e","pie2":"#cf222e"}}}%%
 pie
     "Covered": {{ (trim $totalCoverage) }}
     "Uncovered": {{ (trim (substract 100.00 $totalCoverage)) }}
@@ -85,6 +85,9 @@ pie
     </tr>
     <tr>
     <td colspan="5"> 
+{{if eq (len $value.Tests) 0}}
+No tests found
+{{end}}
 {{- range $key, $value := .Tests }}
         {{(testBadge $value)}} <code>{{$value.Name}}</code>
 <details {{(detailOpened $value.Output)}}><pre><code>{{(testOutput $value)}}

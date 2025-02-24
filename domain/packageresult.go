@@ -3,7 +3,7 @@ package domain
 type PackageResult struct {
 	Name    string
 	Tests   map[string]*TestResult
-	Status  string // "pass" or "fail"
+	Status  string
 	Elapsed string
 }
 

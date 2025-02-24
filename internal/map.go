@@ -17,9 +17,9 @@ func MapTestRawOutputToPackageResults(raw []run.TestRawOutput) map[string]*domai
 
 		if _, ok := packages[line.Package]; !ok {
 			packages[line.Package] = &domain.PackageResult{
-				Name:     line.Package,
-				Tests:    make(map[string]*domain.TestResult), 
-				Status:   "pass",
+				Name:   line.Package,
+				Tests:  make(map[string]*domain.TestResult),
+				Status: "pass",
 			}
 		}
 		pkg := packages[line.Package]
@@ -74,6 +74,12 @@ func MapTestRawOutputToPackageResults(raw []run.TestRawOutput) map[string]*domai
 					tr.Status = "skip"
 				}
 			}
+		}
+	}
+
+	for _, pkg := range packages {
+		if len(pkg.Tests) == 0 {
+			pkg.Status = "skip"
 		}
 	}
 
