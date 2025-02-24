@@ -34,11 +34,12 @@ Issues:
 {{ $totalStatements := .TotalCoverage.Statements }}
 {{ $totalCovered := .TotalCoverage.Covered }}
 {{ $totalCoverage := (percent $totalCovered $totalStatements) }}
+{{ $uncoveredCode := (trim (substract 100.00 $totalCoverage)) }}
 ```mermaid
 %%{init: {"theme":"base","themeVariables":{"fontFamily":"monospace","pieSectionTextSize":"24px","darkMode":true,"pie1":"#2da44e","pie2":"#cf222e"}}}%%
 pie
+    "Uncovered": {{ uncoveredCode }}
     "Covered": {{ (trim $totalCoverage) }}
-    "Uncovered": {{ (trim (substract 100.00 $totalCoverage)) }}
 ```
 
 <table>
@@ -93,8 +94,8 @@ No tests found
 <details {{(detailOpened $value.Output)}}><pre><code>{{(testOutput $value)}}
 </code></pre></details>
 {{- end }}
+{{- end }}
     </td>
     </tr>
-{{- end }}
 
 </table> 

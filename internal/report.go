@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 	"strings"
 	"text/template"
 
@@ -21,6 +22,39 @@ type Report struct {
 	Lint            run.LintResult
 	TestsResult     map[string]*domain.PackageResult
 	TotalCoverage   *Coverage
+}
+
+type PieData struct {
+	Field string
+	Value int
+	Color string
+}
+
+func buildPie(data []PieData) string {
+	//mermaid pie
+	pie := "pie\n"
+
+	//sort pie by value
+	sort.Slice(data, func(i, j int) bool {
+		return data[i].Value > data[j].Value
+	})
+
+	//remove all values that are 0
+	for i := 0; i < len(data); i++ {
+		if data[i].Value == 0 {
+			data = append(data[:i], data[i+1:]...)
+			i--
+		}
+	}
+
+}
+
+func testPie(pkg *domain.PackageResult) string {
+	return ""
+}
+
+func coveragePie(coverage *Coverage) string {
+	return ""
 }
 
 func WriteReport(report Report) {
@@ -47,21 +81,21 @@ func WriteReport(report Report) {
 		},
 		"pkgBadge":  func(pkg *domain.PackageResult) string { return pkg.Badge() },
 		"testBadge": func(test *domain.TestResult) string { return test.Badge() },
-		"totalPassed" : func() int {
+		"totalPassed": func() int {
 			passed := 0
 			for _, pkg := range report.TestsResult {
 				passed += pkg.Passed()
 			}
 			return passed
 		},
-		"totalFailed" : func() int {
+		"totalFailed": func() int {
 			failed := 0
 			for _, pkg := range report.TestsResult {
 				failed += pkg.Failed()
 			}
 			return failed
 		},
-		"totalSkipped" : func() int {
+		"totalSkipped": func() int {
 			skipped := 0
 			for _, pkg := range report.TestsResult {
 				skipped += pkg.Skipped()
