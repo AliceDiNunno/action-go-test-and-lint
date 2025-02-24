@@ -52,7 +52,7 @@ func buildPie(data []PieData) string {
 		colors += fmt.Sprintf(`,"pie%d":"%s"`, x+1, d.Color)
 	}
 
-	pie += `{"theme":"base","themeVariables":{"fontFamily":"monospace","pieSectionTextSize":"24px","darkMode":true` + colors + `}}
+	pie += `%%{init: {"theme":"base","themeVariables":{"fontFamily":"monospace","pieSectionTextSize":"24px","darkMode":true` + colors + `}}}%%
 `
 
 	//add pie data
