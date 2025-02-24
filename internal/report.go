@@ -32,7 +32,7 @@ type PieData struct {
 
 func buildPie(data []PieData) string {
 	//mermaid pie
-	pie := "pie\n"
+	pie := "mermaid\npie\n"
 
 	//remove all values that are 0
 	for i := 0; i < len(data); i++ {

@@ -84,8 +84,6 @@ No tests found
 <details {{(detailOpened $value.Output)}}><pre><code>{{(testOutput $value)}}
 </code></pre></details>
 {{- end }}
-{{- end }}
-    </td>
+{{- end }}</td>
     </tr>
-
 </table> 
