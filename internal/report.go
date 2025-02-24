@@ -34,11 +34,6 @@ func buildPie(data []PieData) string {
 	//mermaid pie
 	pie := "pie\n"
 
-	//sort pie by value
-	sort.Slice(data, func(i, j int) bool {
-		return data[i].Value > data[j].Value
-	})
-
 	//remove all values that are 0
 	for i := 0; i < len(data); i++ {
 		if data[i].Value == 0 {
@@ -47,14 +42,51 @@ func buildPie(data []PieData) string {
 		}
 	}
 
+	//sort pie by value
+	sort.Slice(data, func(i, j int) bool {
+		return data[i].Value > data[j].Value
+	})
+
+	colors := ""
+	for x, d := range data {
+		colors += fmt.Sprintf(`,"pie%d":"%s"`, x+1, d.Color)
+	}
+
+	pie += `{"theme":"base","themeVariables":{"fontFamily":"monospace","pieSectionTextSize":"24px","darkMode":true` + colors + `}}
+`
+
+	//add pie data
+	for _, d := range data {
+		pie += fmt.Sprintf("  %s: %d\n", d.Field, d.Value)
+	}
+
+	return pie
 }
 
-func testPie(pkg *domain.PackageResult) string {
-	return ""
+func testPie(pkg map[string]*domain.PackageResult) string {
+	passed := 0
+	failed := 0
+	skipped := 0
+
+	for _, p := range pkg {
+		passed += p.Passed()
+		failed += p.Failed()
+		skipped += p.Skipped()
+	}
+	data := []PieData{
+		{Field: "Passed", Value: passed, Color: "#00FF00"},
+		{Field: "Failed", Value: failed, Color: "#FF0000"},
+		{Field: "Skipped", Value: skipped, Color: "#FFFF00"},
+	}
+	return buildPie(data)
 }
 
 func coveragePie(coverage *Coverage) string {
-	return ""
+	data := []PieData{
+		{Field: "Covered", Value: coverage.Covered, Color: "#00FF00"},
+		{Field: "Not Covered", Value: coverage.Statements - coverage.Covered, Color: "#FF0000"},
+	}
+	return buildPie(data)
 }
 
 func WriteReport(report Report) {
@@ -81,6 +113,8 @@ func WriteReport(report Report) {
 		},
 		"pkgBadge":  func(pkg *domain.PackageResult) string { return pkg.Badge() },
 		"testBadge": func(test *domain.TestResult) string { return test.Badge() },
+		"testPie":   testPie,
+		"coverPie":  coveragePie,
 		"totalPassed": func() int {
 			passed := 0
 			for _, pkg := range report.TestsResult {

@@ -35,11 +35,7 @@ Issues:
 {{ $totalCovered := .TotalCoverage.Covered }}
 {{ $totalCoverage := (percent $totalCovered $totalStatements) }}
 {{ $uncoveredCode := (trim (substract 100.00 $totalCoverage)) }}
-```mermaid
-%%{init: {"theme":"base","themeVariables":{"fontFamily":"monospace","pieSectionTextSize":"24px","darkMode":true,"pie1":"#2da44e","pie2":"#cf222e"}}}%%
-pie
-    "Uncovered": {{ uncoveredCode }}
-    "Covered": {{ (trim $totalCoverage) }}
+```{{(coverPie .TotalCoverage)}}
 ```
 
 <table>
@@ -61,12 +57,7 @@ pie
 </table>
 
 ## Tests
-```mermaid
-%%{init: {"theme":"base","themeVariables":{"fontFamily":"monospace","pieSectionTextSize":"24px","darkMode":true,"pie1":"#2da44e","pie2":"#cf222e","pie3":"#dbab0a"}}}%%
-pie
-    "Fail": {{(totalFailed)}}
-    "Skip": {{(totalSkipped)}}
-    "Pass": {{(totalPassed)}}
+```{{(testPie .TestsResult)}}
 ```
 <table>
     <tr>
@@ -85,8 +76,7 @@ pie
     <td>{{.Elapsed}}</td>
     </tr>
     <tr>
-    <td colspan="5"> 
-{{if eq (len $value.Tests) 0}}
+    <td colspan="5">{{if eq (len $value.Tests) 0}}
 No tests found
 {{end}}
 {{- range $key, $value := .Tests }}
