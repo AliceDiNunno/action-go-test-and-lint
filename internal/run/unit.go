@@ -17,9 +17,11 @@ type TestRawOutput struct {
 }
 
 func RunUnit() (results []TestRawOutput, success bool) {
+	failed := false
 	data, err := run("go test ./... -json -coverprofile=coverage.out", true)
 	if err != nil {
 		log.Printf("go test failed: %v", err)
+		failed = true
 	}
 
 	results = []TestRawOutput{}
@@ -32,5 +34,6 @@ func RunUnit() (results []TestRawOutput, success bool) {
 		}
 		results = append(results, result)
 	}
+	success = !failed
 	return
 }
