@@ -73,11 +73,22 @@ func testPie(pkg map[string]*domain.PackageResult) string {
 		failed += p.Failed()
 		skipped += p.Skipped()
 	}
-	data := []PieData{
-		{Field: "Passed", Value: passed, Color: "#00FF00"},
-		{Field: "Failed", Value: failed, Color: "#FF0000"},
-		{Field: "Skipped", Value: skipped, Color: "#FFFF00"},
+
+	data := []PieData{}
+	if passed > 0 {
+		data = append(data, PieData{Field: "Passed", Value: passed, Color: "#00FF00"})
 	}
+	if failed > 0 {
+		data = append(data, PieData{Field: "Failed", Value: failed, Color: "#FF0000"})
+	}
+	if skipped > 0 {
+		data = append(data, PieData{Field: "Skipped", Value: skipped, Color: "#FFFF00"})
+	}
+
+	if len(data) == 0 {
+		data = append(data, PieData{Field: "No Tests", Value: 100, Color: "#FF0000"})
+	}
+
 	return buildPie(data)
 }
 

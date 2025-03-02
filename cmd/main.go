@@ -18,5 +18,6 @@ func main() {
 
 	if !success {
 		println("Tests failed")
+		os.Exit(1)
 	}
 }
