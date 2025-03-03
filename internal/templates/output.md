@@ -77,10 +77,8 @@ Issues:
     </tr>
     <tr>
     <td colspan="5">{{if eq (len $value.Tests) 0}}
-No tests found
-{{end}}
-{{- range $key, $value := .Tests }}
-        {{(testBadge $value)}} <code>{{$value.Name}}</code>
+No tests found {{end}} {{- range $key, $value := .Tests }}
+{{(testBadge $value)}} <code>{{$value.Name}}</code>
 <details {{(detailOpened $value.Output)}}><pre><code>{{(testOutput $value)}}
 </code></pre></details>
 {{- end }}
