@@ -2,6 +2,7 @@ package run
 
 import (
 	"encoding/json"
+	"github.com/davecgh/go-spew/spew"
 	"log"
 )
 
@@ -25,7 +26,6 @@ type LintResult struct {
 
 func RunLint() (results LintResult, success bool) {
 	data, err := run("golangci-lint run ./... --output.json.path stdout", false)
-	success = err == nil
 
 	if err != nil {
 		log.Printf("golangci-lint failed: %v", err)
@@ -34,6 +34,7 @@ func RunLint() (results LintResult, success bool) {
 	err = json.Unmarshal([]byte(data), &results)
 	if err != nil {
 		log.Printf("Failed to parse golangci-lint output: %v", err)
+		spew.Dump(data)
 		success = false
 	}
 
