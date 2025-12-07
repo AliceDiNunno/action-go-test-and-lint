@@ -25,7 +25,7 @@ type LintResult struct {
 }
 
 func RunLint() (results LintResult, success bool) {
-	data, err := run("golangci-lint run ./... --output.json.path stdout", false)
+	data, err := run("golangci-lint run ./... --output.json.path stdout", true)
 
 	if err != nil {
 		log.Printf("golangci-lint failed: %v", err)
