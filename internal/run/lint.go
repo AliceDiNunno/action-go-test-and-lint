@@ -25,7 +25,20 @@ type LintResult struct {
 }
 
 func RunLint() (results LintResult, success bool) {
-	data, err := run("golangci-lint run ./... --output.json.path stdout", true)
+	data, err := run("golangci-lint version", true)
+
+	if err != nil {
+		log.Printf("golangci-lint failed: %v", err)
+	}
+
+	err = json.Unmarshal([]byte(data), &results)
+	if err != nil {
+		log.Printf("Failed to parse golangci-lint output: %v", err)
+		spew.Dump(data)
+		success = false
+	}
+
+	data, err = run("golangci-lint run ./... --output.json.path stdout", true)
 
 	if err != nil {
 		log.Printf("golangci-lint failed: %v", err)
