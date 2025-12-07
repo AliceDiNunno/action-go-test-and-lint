@@ -24,7 +24,7 @@ type LintResult struct {
 }
 
 func RunLint() (results LintResult, success bool) {
-	data, err := run("golangci-lint run ./... --out-format json", false)
+	data, err := run("golangci-lint run ./... --output.json.path stdout", false)
 	success = err == nil
 
 	if err != nil {
