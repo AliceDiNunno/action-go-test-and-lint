@@ -1,7 +1,7 @@
 # Dockerfile
 FROM golang:latest
 
-RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@v2.4.0
+RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@v2.7.1
 
 WORKDIR /app
 COPY . .
